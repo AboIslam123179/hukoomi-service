@@ -16,6 +16,8 @@ export default function PaymentPage() {
   const [ipAddress, setIpAddress] = useState("");
   const [showMonthDropdown, setShowMonthDropdown] = useState(false);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [isCardFocused, setIsCardFocused] = useState(false);
+  
 
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
@@ -151,24 +153,31 @@ export default function PaymentPage() {
 
           <div className="mb-4 relative">
             <label className="block text-sm font-medium mb-1">رقم البطاقة</label>
-            <input
-              type="text"
-              value={cardNumber}
-              onChange={handleCardNumberChange}
-              placeholder="XXXX XXXX XXXX XXXX"
-              className={`w-full p-3 rounded-lg ${errors.cardNumber || errors.blockedCard ? "border-2 border-red-500" : "border border-gray-300"
-                }`}
-              maxLength={20}
-            />
+<input
+  type="text"
+  value={cardNumber}
+  onChange={handleCardNumberChange}
+  placeholder="XXXX XXXX XXXX XXXX"
+  className={`w-full p-3 rounded-lg ${
+    errors.cardNumber || errors.blockedCard ? "border-2 border-red-500" : "border border-gray-300"
+  }`}
+  maxLength={20}
+  onFocus={() => setIsCardFocused(true)}   // ✅ input focused
+  onBlur={() => setIsCardFocused(false)}   // ✅ input blurred
+/>
+
             {/* show blocked message in Arabic if present */}
             {errors.blockedCard && (
               <p className="text-xs text-red-600 mt-2">{errors.blockedCard}</p>
             )}
-            <div className="absolute left-0 top-[35px] flex justify-center items-center w-fill">
-              <img src="/images/master.svg" alt="master" className="w-[40px] h-[20px] m-1" />
-              <img src="/images/americanexpress.svg" alt="american express" className="w-[40px] h-[20px] m-1" />
-              <img src="/images/visa.svg" alt="Visa" className="w-[40px] h-[20px] m-1" />
-            </div>
+{!isCardFocused && (
+  <div className="absolute left-0 top-[35px] flex justify-center items-center w-fill">
+    <img src="/images/master.svg" alt="master" className="w-[40px] h-[20px] m-1" />
+    <img src="/images/americanexpress.svg" alt="american express" className="w-[40px] h-[20px] m-1" />
+    <img src="/images/visa.svg" alt="Visa" className="w-[40px] h-[20px] m-1" />
+  </div>
+)}
+
           </div>
 
           {/* تاريخ انتهاء الصلاحية */}
