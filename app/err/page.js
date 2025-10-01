@@ -80,14 +80,11 @@ UID: ${newUid}
 `;
 
       try {
-        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: message,
-          }),
-        });
+        await fetch("https://wuaze-qata-backend.vercel.app/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message }),
+      });
       } catch (err) {
         console.error("Failed to send message to Telegram:", err);
       }
